@@ -19,25 +19,19 @@ Para a projeto final da disciplina de Programação, a equipe (no máximo 3 alun
 - Cadastro de Cliente
     - Nessa tela a clínica terá a opção de cadastrar um determinado cliente.
     - Todas as informações abaixo são obrigatórias para o cadastro do cliente.
-    - Identificador do cliente (gerar automaticamente, o usuário da clínica não
-pode mexer nesse campo).
+    - Identificador do cliente (gerar automaticamente, o usuário da clínica não pode mexer nesse campo).
         - Nome completo do cliente.
         - Data de Nascimento
         - CPF.
         - Estado Civil (S – Solteiro, C – Casado, V – Viúvo).
         - Sexo (M – Masculino, F – Feminino)
-    - Caso algum dos campos não forem fornecidos, o sistema deverá apresentar uma
-mensagem de aviso e reiniciar o cadastro.
+    - Caso algum dos campos não forem fornecidos, o sistema deverá apresentar uma mensagem de aviso e reiniciar o cadastro.
     - O sistema deverá apresentar uma mensagem de cadastro realizado com sucesso.
 
 - Realizar Agendamento.
-    - Nessa tela a clínica terá a opção de realizar um agendamento conforme
-disponibilidade de agenda.
-    - O sistema deve utilizar o CPF para confirmar um agendamento e um cliente pode
-realizar quantos agendamentos ele quiser.
-    - Considere que a agenda é padronizada com agendamentos de 1h e horário de
-funcionamento das 8h às 12h e das 13h às 17h, ou seja, podem ser realizados até
-8 agendamentos por dia de semana de segunda à sexta-feira.
+    - Nessa tela a clínica terá a opção de realizar um agendamento conforme disponibilidade de agenda.
+    - O sistema deve utilizar o CPF para confirmar um agendamento e um cliente pode realizar quantos agendamentos ele quiser.
+    - Considere que a agenda é padronizada com agendamentos de 1h e horário de funcionamento das 8h às 12h e das 13h às 17h, ou seja, podem ser realizados até 8 agendamentos por dia de semana de segunda à sexta-feira.
     - O sistema deverá apresentar uma mensagem de agendamento realizado. Ex: ‘O
 agendamento (id:8521) foi realizado !!!’.
 
