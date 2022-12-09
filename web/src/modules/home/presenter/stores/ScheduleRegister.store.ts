@@ -1,5 +1,6 @@
 import Vue from "vue";
-import CustomerEntity from "../../domain/entities/Customer.entity";
+import CustomerEntity from "../../../customer/domain/entities/Customer.entity";
+import ServiceEntity from "../../domain/entities/Service.entity";
 
 let instance: ScheduleRegisterStore;
 
@@ -8,6 +9,7 @@ interface Props {
   date: string;
   hour: string;
   customer: CustomerEntity;
+  service: ServiceEntity;
 }
 
 export default class ScheduleRegisterStore {
@@ -16,6 +18,7 @@ export default class ScheduleRegisterStore {
     date: "",
     hour: "",
     customer: new CustomerEntity(),
+    service: new ServiceEntity(),
   });
 
   constructor() {
@@ -28,7 +31,6 @@ export default class ScheduleRegisterStore {
   }
 
   open(handleDate: any) {
-    console.log(`${handleDate}`, handleDate);
     this.store.date = `${handleDate.date}`;
     this.store.open = true;
   }

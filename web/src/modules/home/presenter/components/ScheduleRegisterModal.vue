@@ -24,11 +24,23 @@
             <v-row>
               <v-col sm="3" xs="12">
                 <v-text-field
-                  v-model="state.store.customer.name"
-                  label="Nome"
+                  v-model="state.store.service.description"
                   outlined
-                  required
+                  label="Serviço"
                 />
+              </v-col>
+              <v-col sm="3" xs="12">
+                <v-text-field-money
+                  v-model="state.store.service.price"
+                  :properties="{ outlined: true, locale: 'pt-BR' }"
+                  label="Preço"
+                />
+              </v-col>
+            </v-row>
+            <v-divider class="my-3" />
+            <v-row>
+              <v-col sm="3" xs="12">
+                <customer-autocomplete v-model="state.store.customer.name" />
               </v-col>
 
               <v-col sm="3" xs="12">
@@ -70,6 +82,17 @@
           </v-container>
         </v-form>
       </v-card-text>
+
+      <v-divider />
+
+      <v-card-actions>
+        <v-container>
+          <v-row>
+            <v-spacer />
+            <v-btn outlined color="primary"> Salvar </v-btn>
+          </v-row>
+        </v-container>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -82,9 +105,11 @@ import ISelectItem from "@/modules/shared/domain/vuetify/SelectItem";
 import EGender from "../../domain/enums/Gender.enum";
 import ECivilStatus from "../../domain/enums/CivilStatus.enum";
 import TimePicker from "@/modules/shared/components/datepicker/TimePicker.vue";
+import CustomerAutocomplete from "@/modules/customer/presenter/components/CustomerAutocomplete.vue";
 
 @Component({
   components: {
+    CustomerAutocomplete,
     DatePicker,
     TimePicker,
   },

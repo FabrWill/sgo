@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 #from database import *
 from helpers import Helpers
 from cliente import Cliente
@@ -6,6 +7,7 @@ from agendamento import Agendamento
 from servico import Servico
 
 app = Flask('SGO')
+cors = CORS(app)
 
 
 @app.route('/', methods=['GET'])
