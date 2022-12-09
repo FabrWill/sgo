@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from "./Config";
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosRequestConfig } from "axios";
 
 /**
  * @typedef {Http}
@@ -56,7 +56,7 @@ export default class Http {
    * @param {String} url
    * @returns {*|Promise<any>}
    */
-  get<T>(url: string, params = {}, opt = {}): Promise<AxiosResponse<T>> {
+  get<T>(url: string, params = {}, opt = {}): Promise<T> {
     return this.http.get<T>(url, { params: params, ...opt }).then(Http.then);
   }
 
@@ -65,7 +65,7 @@ export default class Http {
    * @param {Object} data
    * @returns {*|Promise<any>}
    */
-  post<T>(url: string, data: any, opt = {}): Promise<AxiosResponse<T>> {
+  post<T>(url: string, data: any, opt = {}): Promise<T> {
     return this.http.post<T>(url, data, opt).then(Http.then);
   }
 
@@ -74,7 +74,7 @@ export default class Http {
    * @param {Object} data
    * @returns {*|Promise<any>}
    */
-  put<T>(url: string, data: any): Promise<AxiosResponse<T>> {
+  put<T>(url: string, data: any): Promise<T> {
     return this.http.put<T>(url, data).then(Http.then);
   }
 
@@ -83,7 +83,7 @@ export default class Http {
    * @param {Object} data
    * @returns {*|Promise<any>}
    */
-  patch<T>(url: string, data: any): Promise<AxiosResponse<T>> {
+  patch<T>(url: string, data: any): Promise<T> {
     return this.http.patch<T>(url, data).then(Http.then);
   }
 
@@ -91,7 +91,7 @@ export default class Http {
    * @param {String} url
    * @returns {*|Promise<any>}
    */
-  delete<T>(url: string, options = {}): Promise<AxiosResponse<T>> {
+  delete<T>(url: string, options = {}): Promise<T> {
     return this.http.delete<T>(url, options).then(Http.then);
   }
 
@@ -99,7 +99,7 @@ export default class Http {
    * @param {Object} response
    * @returns {Object}
    */
-  static then(response: AxiosResponse) {
+  static then(response: any) {
     try {
       if (!response) {
         return {};

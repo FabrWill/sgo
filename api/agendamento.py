@@ -65,8 +65,6 @@ class Agendamento:
 
     def listar(self):
         filtro = '' 
-#        if len(self.data['cpf']) > 0:
-#            filtro = f"cpf='{self.data['cpf']}' AND "
 
         query = f"SELECT * FROM agendamentos WHERE {filtro} status='R'"
         res = self.cur.execute(query)

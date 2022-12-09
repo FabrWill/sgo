@@ -1,19 +1,18 @@
+import CustomerEntity from "@/modules/customer/domain/entities/Customer.entity";
+import ServiceEntity from "@/modules/services/domain/entities/Services.entity";
 import Vue from "vue";
-import CustomerEntity from "../../../customer/domain/entities/Customer.entity";
-import ServiceEntity from "../../domain/entities/Service.entity";
+import ScheduleEntity from "../../domain/entities/Schedule.entity";
+import ScheduleSaveService from "../../infra/http/ScheduleSave.service";
 
 let instance: ScheduleRegisterStore;
 
-interface Props {
+interface Props extends ScheduleEntity {
   open: boolean;
-  date: string;
-  hour: string;
-  customer: CustomerEntity;
-  service: ServiceEntity;
 }
 
 export default class ScheduleRegisterStore {
   store: Props = Vue.observable({
+    id: 0,
     open: false,
     date: "",
     hour: "",
@@ -28,6 +27,12 @@ export default class ScheduleRegisterStore {
     }
 
     return instance;
+  }
+
+  async save() {
+    const result = await new ScheduleSaveService().save(this.store);
+
+    console.log(result);
   }
 
   open(handleDate: any) {

@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ScheduleService from "../../infra/http/Schedule.service";
+import ScheduleService from "../../infra/http/ScheduleLoad.service";
 import ScheduleRegisterStore from "../stores/ScheduleRegister.store";
 import ScheduleRegisterModal from "../components/ScheduleRegisterModal.vue";
 
@@ -32,8 +32,10 @@ export default Vue.extend({
     events: [],
     scheduleRegister: new ScheduleRegisterStore(),
   }),
-  created() {
-    new ScheduleService().load();
+  async created() {
+    const result = await new ScheduleService().load();
+
+    console.log("result", result);
   },
   methods: {
     openRegisterModal(date: Date) {

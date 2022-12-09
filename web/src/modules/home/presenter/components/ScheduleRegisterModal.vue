@@ -23,15 +23,14 @@
             <v-divider class="my-3" />
             <v-row>
               <v-col sm="3" xs="12">
-                <v-text-field
-                  v-model="state.store.service.description"
-                  outlined
-                  label="Serviço"
+                <service-autocomplete
+                  v-model="state.store.service.name"
+                  @serviceSelected="selectService"
                 />
               </v-col>
               <v-col sm="3" xs="12">
                 <v-text-field-money
-                  v-model="state.store.service.price"
+                  v-model="state.store.service.value"
                   :properties="{ outlined: true, locale: 'pt-BR' }"
                   label="Preço"
                 />
@@ -40,7 +39,10 @@
             <v-divider class="my-3" />
             <v-row>
               <v-col sm="3" xs="12">
-                <customer-autocomplete v-model="state.store.customer.name" />
+                <customer-autocomplete
+                  v-model="state.store.customer.name"
+                  @selectedCustomer="selectedCustomer"
+                />
               </v-col>
 
               <v-col sm="3" xs="12">
@@ -89,7 +91,9 @@
         <v-container>
           <v-row>
             <v-spacer />
-            <v-btn outlined color="primary"> Salvar </v-btn>
+            <v-btn outlined color="primary" @click="save" :loading="loading">
+              Salvar
+            </v-btn>
           </v-row>
         </v-container>
       </v-card-actions>
@@ -106,16 +110,21 @@ import EGender from "../../domain/enums/Gender.enum";
 import ECivilStatus from "../../domain/enums/CivilStatus.enum";
 import TimePicker from "@/modules/shared/components/datepicker/TimePicker.vue";
 import CustomerAutocomplete from "@/modules/customer/presenter/components/CustomerAutocomplete.vue";
+import CustomerEntity from "@/modules/customer/domain/entities/Customer.entity";
+import ServiceAutocomplete from "@/modules/services/presenter/components/ServiceAutocomplete.vue";
+import ServiceEntity from "@/modules/services/domain/entities/Services.entity";
 
 @Component({
   components: {
     CustomerAutocomplete,
+    ServiceAutocomplete,
     DatePicker,
     TimePicker,
   },
 })
 class ScheduleRegisterModal extends Vue {
   state = new ScheduleRegisterStore();
+  loading = false;
 
   genderItems: ISelectItem[] = [
     { text: "Masculino", value: EGender.MALE },
@@ -127,6 +136,35 @@ class ScheduleRegisterModal extends Vue {
     { text: "Casado", value: ECivilStatus.VIUVO },
     { text: "Viúvo", value: ECivilStatus.CASADO },
   ];
+
+  selectedCustomer(customer: CustomerEntity) {
+    this.state.store.customer.id = customer.id;
+    this.state.store.customer.name = customer.name;
+    this.state.store.customer.birthdate = customer.birthdate;
+    this.state.store.customer.cpf = customer.cpf;
+    this.state.store.customer.civil_status = customer.civil_status;
+    this.state.store.customer.gender = customer.gender;
+  }
+
+  selectService(service: ServiceEntity) {
+    this.state.store.service.name = service.name;
+    this.state.store.service.value = service.value;
+    this.state.store.service.id = service.id;
+  }
+
+  async save() {
+    try {
+      this.loading = true;
+
+      console.log("salve", this.state);
+
+      await this.state.save();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.loading = false;
+    }
+  }
 }
 
 export default ScheduleRegisterModal;
