@@ -1,7 +1,7 @@
 import Http from "@/modules/http/Http";
 
 export default class ScheduleService extends Http {
-    load () {
-        this.get("/");
-    }
+  async load() {
+    return this.get("/agendamentos");
+  }
 }
