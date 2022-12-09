@@ -5,8 +5,8 @@ from datetime import datetime
 
 class Agendamento:
 
-    def __init__(self, data=None, id=None, filtros={}):
-        self.con = sqlite3.connect('database.db')
+    def __init__(self, data={}, id=None, filtros={}):
+        self.con = sqlite3.connect('../database.db')
         self.cur = self.con.cursor()
         self.data = data
         self.id = id
@@ -65,6 +65,9 @@ class Agendamento:
 
     def listar(self):
         filtro = '' 
+        if "cpf" in self.data:
+            if len(self.data['cpf']) > 0:
+                filtro = f"cpf='{self.data['cpf']}' AND "
 
         query = f"SELECT * FROM agendamentos WHERE {filtro} status='R'"
         res = self.cur.execute(query)

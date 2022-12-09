@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 
 from database import *
 from agendamento import *
@@ -163,10 +164,15 @@ def relatorioAgendamentos():
     print("1. Relatório de todos os agendamentos.")
 
     agendamentos = Agendamento.lista({})
-    print("CPF  |  DATA  |  HORA")
-    for agendamento in agendamentos:
-        print(f"{agendamento[1]}  |  {agendamento[2]} |  {agendamento[3]}  ")
-        print("")
+    #print("CPF  |  DATA  |  HORA")
+    #for agendamento in agendamentos:
+    #    print(f"{agendamento[1]}  |  {agendamento[2]} |  {agendamento[3]}  ")
+    #    print("")
+
+    #print(pd.DataFrame({'DATA': agendamentos}))
+    f_agendamento = open(r"r_agendamentos","w+")
+    f_agendamento.write(str(pd.DataFrame(agendamentos, columns=["COD", "CPF", "DATA", "HORA", 'S'])))
+    f_agendamento.close()
 
     acao = int(input("Deseja gerar outro relatorio? (1 - Sim, 0 - Não): "))
     if acao == 1:
@@ -179,10 +185,17 @@ def cpfAgendamentos():
     cpf = input("Digite o CPF de um cliente: ")
 
     agendamentos = Agendamento.lista({"cpf": cpf})
-    print("CPF  |  DATA  |  HORA")
-    for agendamento in agendamentos:
-        print(f"{agendamento[1]}  |  {agendamento[2]} |  {agendamento[3]}  ")
-        print("")
+    #print("CPF  |  DATA  |  HORA")
+    #for agendamento in agendamentos:
+    #    print(f"{agendamento[1]}  |  {agendamento[2]} |  {agendamento[3]}  ")
+    #    print("")
+
+    if len(agendamentos) > 0:
+        f_agendamento = open(r"r_agendamentos_cpf","w+")
+        f_agendamento.write(str(pd.DataFrame(agendamentos, columns=["COD", "CPF", "DATA", "HORA", 'S'])))
+        f_agendamento.close()
+    else:
+        print("CLIENTE SEM AGENDAMENTOS")
 
     acao = int(input("Deseja gerar outro relatorio? (1 - Sim, 0 - Não): "))
     if acao == 1:
@@ -194,10 +207,13 @@ def relatorioMes():
     print("3. Relatório de receita total por mês.")
 
     servicos = Servico.total()
-    print("MES  | TOTAL  ")
-    for servico in servicos:
-        print(f"{servico[1]}  |  {servico[0]}  ")
-        print("")
+    #print("MES  | TOTAL  ")
+    #for servico in servicos:
+    #    print(f"{servico[1]}  |  {servico[0]}  ")
+    #    print("")
+    f_contas = open(r"r_servicos_mes","w+")
+    f_contas.write(str(pd.DataFrame(servicos, columns=["VALOR", "MES"])))
+    f_contas.close()
 
     acao = int(input("Deseja gerar outro relatorio? (1 - Sim, 0 - Não): "))
     if acao == 1:

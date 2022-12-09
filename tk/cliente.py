@@ -4,10 +4,36 @@ from database import *
 from tkinter import *
 from helpers import validaCPF
 
+
+
 def tkNovoCliente():
+    def execCadastro(app):
+        cliente = {
+            "nome":         {"texto": "", "valor": nome_completo.get()},
+            "nascimento":   {"texto": "", "valor": nascimento.get()},
+            "cpf":          {"texto": "", "valor": cpf.get()},
+            "estado_civil": {"texto": "", "valor": estado_civil.get()},
+            "sexo":         {"texto": "", "valor": sexo.get()},
+        }
+
+        for valido in cliente.keys():
+            if cliente[valido]["valor"] == "":
+                erro = Cliente.validar(valido, cliente[valido]["valor"], app)
+                print(erro)
+
+        #    while cliente[valido]["valor"] == "":
+        #        if Cliente.validar(cliente[valido], cliente[valido]["valor"]):
+        #            print(cliente[valido], cliente[valido]["valor"])
+        #            break
+        #            Label(app, text="Verifique os campos").place(x=200, y=240)
+        #            cliente[valido]["valor"] = ""
+        #            return
+
+        #Cliente.cadastra(cliente)
+
     app = Tk()
     app.title('SGO - Novo CLiente')
-    app.geometry('800x600')
+    app.geometry('500x500')
 
     Label(app, text="Nome Completo: ", fg='black', anchor=W).place(x=50, y=100, width=800, height=20)
     nome_completo = Entry(app)
@@ -31,23 +57,7 @@ def tkNovoCliente():
     sexo = Combobox(app, values=sexo_data)
     sexo.place(x=200, y=220)
 
-
-    cliente = {
-        "nome": {"texto": "Nome Completo: ", "valor": nome_completo.get()},
-        "nascimento": {"texto": "Data de Nascimento: ", "valor": nascimento.get()},
-        "cpf": {"texto": "CPF: ", "valor": cpf.get()},
-        "estado_civil": {"texto": "Estado Civil (S, C, V): ", "valor": estado_civil.get()},
-        "sexo": {"texto": "Sexo (M, F): ", "valor": sexo.get()},
-    }
-    def execCadastro(cliente):
-        for valido in cliente.keys():
-            while cliente[valido]["valor"] == "":
-                if Cliente.validar(valido, cliente[valido]["valor"]):
-                    cliente[valido]["valor"] = ""
-
-        # Cliente.cadastra(cliente)
-
-    btn = Button(app, text="Gravar", command=(execCadastro(cliente)))
+    btn = Button(app, text="Gravar", command=lambda: execCadastro(app))
     btn.place(x=30, y=300, height=20)
 
     app.mainloop()
@@ -58,10 +68,10 @@ def tkExcluiCliente():
 
 class Cliente:
 
-    def __init__(self):
+    def __init__():
         return ''
 
-    def criar_tabela(self):
+    def criar_tabela():
         try:
             dml('''CREATE TABLE "clientes" (
                 "id"	INTEGER NOT NULL UNIQUE,
@@ -78,16 +88,16 @@ class Cliente:
         else:
             print('[!] Tabela criada com sucesso [!]\n')
 
-    def cadastra(self, cli = {}):
+    def cadastra(cli = {}):
         return dml(f"INSERT INTO clientes (nome, nascimento, cpf, estado_civil, sexo) VALUES ('{cli['nome']['texto']}','{cli['nascimento']['texto']}','{cli['cpf']['texto']}','{cli['estado_civil']['texto']}','{cli['sexo']['texto']}')")
 
-    def atualiza(self, cli = {}):
+    def atualiza(cli = {}):
         return dml(f"UPDATE clientes SET nome='{cli['nome']['texto']}', nascimento='{cli['nascimento']['texto']}', cpf='{cli['cpf']['texto']}', estado_civil='{cli['estado_civil']['texto']}', sexo='{cli['sexo']['texto']}' WHERE id='{cli['id']['texto']}'")
 
-    def deleta(self, id):
+    def deleta(id):
         return dml(f"UPDATE clientes SET excluido=1 WHERE id='{id}'")
 
-    def lista(self, filtros):
+    def lista(filtros):
         if filtros != None:
             excluidos = 0
             if 'excluidos' in filtros:
@@ -103,30 +113,34 @@ class Cliente:
 
         return dql(f"SELECT * FROM clientes WHERE excluido={excluidos} {buscar} ORDER BY nome ASC")
 
-    def cliente(self, id):
+    def cliente(id):
         return dql(f"SELECT * FROM clientes WHERE id={id}")
 
-    def validar(self, validaInput, validaValor):
+    def validar(validaInput, validaValor, app):
         validaValor = validaValor.upper()
+
         if validaInput == "cpf":
             return validaCPF(validaValor)
-                    
+        
         if validaInput == "estado_civil":
             if len(validaValor) > 1:
-                print("O estado civil deve ter apenas 1 caracter")
+                Label(app, text="O estado civil deve ter apenas 1 caracter").place(x=200, y=240)
                 return True
         
             if validaValor not in ["S", "C", "V"]:
-                print("O estado civil deve ser uma das opções")
+                Label(app, text="O estado civil deve ser uma das opções").place(x=200, y=240)
                 return True
         
         if validaInput == "sexo":
             if len(validaValor) > 1:
-                print("O sexo deve ter apenas 1 caracter")
+                Label(app, text="O sexo deve ter apenas 1 caracter").place(x=200, y=240)
                 return True
         
             if validaValor not in ["M", "F"]:
-                print("O sexo deve ser uma das opções")
+                Label(app, text="O sexo deve ser uma das opções").place(x=200, y=240)
                 return True
         
         return False
+
+    
+tkNovoCliente()

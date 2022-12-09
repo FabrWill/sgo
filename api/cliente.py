@@ -5,13 +5,13 @@ from helpers import Helpers
 class Cliente:
 
     def __init__(self, data=None, id=None, filtros={}):
-        self.con = sqlite3.connect('database.db')
+        self.con = sqlite3.connect('../database.db')
         self.cur = self.con.cursor()
         self.data = data
         self.id = id
         self.filtros = filtros
 
-        self.criar_tabela()
+        # self.criar_tabela()
         pass
 
     def __del__(self):

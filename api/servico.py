@@ -4,7 +4,7 @@ from helpers import Helpers
 
 class Servico:
 
-    def __init__(self, data=None, id=None, filtros={}):
+    def __init__(self, data={}, id=None, filtros={}):
         self.con = sqlite3.connect('database.db')
         self.cur = self.con.cursor()
         self.data = data
@@ -45,9 +45,10 @@ class Servico:
         return data
 
     def listar(self):
-        fiiltro = '' 
-        if len(self.data['cpf']) > 0:
-            filtro = f"WHERE cpf='{self.data['cpf']}' "
+        filtro = '' 
+        if "cpf" in self.data:
+            if len(self.data['cpf']) > 0:
+                filtro = f"WHERE cpf='{self.data['cpf']}' "
 
         query = f"SELECT * FROM servicos {filtro}"
         res = self.cur.execute(query)
